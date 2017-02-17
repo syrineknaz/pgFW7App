@@ -1,8 +1,9 @@
+
 // Initialize your app
 var myApp = new Framework7();
 
 // Export selectors engine
-var $$ = Dom7;
+var $$ = Framework7.$;
 
 // Add view
 var mainView = myApp.addView('.view-main', {
@@ -10,22 +11,26 @@ var mainView = myApp.addView('.view-main', {
     dynamicNavbar: true
 });
 
-// Callbacks to run specific code for specific pages, for example for About page:
-myApp.onPageInit('about', function (page) {
-    // run createContentPage func after link was clicked
-    $$('.create-page').on('click', function () {
-        createContentPage();
-    });
+// Event listener to run specific code for specific pages
+$$(document).on('pageInit', function (e) {
+    var page = e.detail.page;
+    // If it is About page
+    if (page.name === 'about') {
+        // run createContentPage func after link was clicked
+        $$('.create-page').on('click', function () {
+            createContentPage();
+        });
+    }
 });
 
 // Generate dynamic page
 var dynamicPageIndex = 0;
 function createContentPage() {
-	mainView.router.loadContent(
+	mainView.loadContent(
         '<!-- Top Navbar-->' +
         '<div class="navbar">' +
         '  <div class="navbar-inner">' +
-        '    <div class="left"><a href="#" class="back link"><i class="icon icon-back"></i><span>Back</span></a></div>' +
+        '    <div class="left"><a href="#" class="back link"><i class="icon icon-back-blue"></i><span>Back</span></a></div>' +
         '    <div class="center sliding">Dynamic Page ' + (++dynamicPageIndex) + '</div>' +
         '  </div>' +
         '</div>' +
@@ -46,3 +51,4 @@ function createContentPage() {
     );
 	return;
 }
+
